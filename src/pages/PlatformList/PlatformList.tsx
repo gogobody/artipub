@@ -225,7 +225,7 @@ const PlatformList: React.FC<PlatformListProps> = props => {
           img = <img className={style.siteLogo} src={imgJuejin}/>;
         } else if (d.name === constants.platform.TYPECHO) {
           return <img className={style.siteLogo} alt={d.label} src={imgTypecho}/>;
-        } else if (d.name === constants.platform.SEGMENTFAULT) {
+		} else if (d.name === constants.platform.SEGMENTFAULT) {
           img = <img className={style.siteLogo} src={imgSegmentfault}/>;
         } else if (d.name === constants.platform.JIANSHU) {
           img = <img className={style.siteLogo} src={imgJianshu}/>;
@@ -556,7 +556,8 @@ const PlatformList: React.FC<PlatformListProps> = props => {
               onChange={onFieldChange(constants.inputType.INPUT, 'password')}
             />
           </Form.Item>
-          <div style={{display:platform.currentPlatform?.name==='typecho'?'block':'none'}}>
+		  
+		  <div style={{display:platform.currentPlatform?.name==='typecho'?'block':'none'}}>
             <Form.Item label="xmlrpc">
               <Input
                 value={platform.currentPlatform ? platform.currentPlatform.url : ''}
@@ -566,7 +567,6 @@ const PlatformList: React.FC<PlatformListProps> = props => {
               />
             </Form.Item>
           </div>
-
         </Form>
       </Modal>
       {/*<div className={style.actions}>*/}

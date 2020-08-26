@@ -101,7 +101,6 @@ module.exports = {
       enableImport: false,
       enableLogin: false,
     }
-
   ],
 
   // 环境变量

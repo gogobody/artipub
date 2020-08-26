@@ -43,7 +43,9 @@ if(typechoCategories.length == 0){
       let rdata = res.data
       if(rdata.length>0){
         rdata.forEach((ele: any)=>{
-          typechoCategories.push(ele)
+		  if(ele.label && ele.value){
+			  typechoCategories.push(ele)
+		  }
         })
       }
     }else {
@@ -51,10 +53,12 @@ if(typechoCategories.length == 0){
     }
 
   }).then(function (err) {
+    if(err){
     console.log(err)
+    }
   })
+  console.log(typechoCategories)
 }
-
 
 const ArticleList: React.FC<ArticleListProps> = props => {
   const {dispatch, article, platform, task} = props;
@@ -439,7 +443,7 @@ const ArticleList: React.FC<ArticleListProps> = props => {
       render: (text, d) => {
         if (d.name === constants.platform.JUEJIN) {
           return <img className={style.siteLogo} alt={d.label} src={imgJuejin}/>;
-        }else if (d.name === constants.platform.TYPECHO) {
+        } else if (d.name === constants.platform.TYPECHO) {
           return <img className={style.siteLogo} alt={d.label} src={imgTypecho}/>;
         } else if (d.name === constants.platform.SEGMENTFAULT) {
           return <img className={style.siteLogo} alt={d.label} src={imgSegmentfault}/>;
@@ -648,40 +652,7 @@ const ArticleList: React.FC<ArticleListProps> = props => {
         </Form.Item>
       </Form>
     );
-  }else if (currentPlatform && currentPlatform.name === constants.platform.TYPECHO) {
-    let categories: any[] = typechoCategories
-    const tags = juejin.tags.sort((a: string, b: string) => a > b ? 1 : -1)
-    platformContent = (
-      <Form labelCol={{sm: {span: 4}}} wrapperCol={{sm: {span: 20}}}>
-        <Form.Item label="类别" required={true}>
-          <Select
-            placeholder="点击选择类别"
-            value={task.currentTask ? task.currentTask.category : undefined}
-            onChange={onTaskChange('select', 'category')}
-          >
-            {categories.map(category => (
-              <Select.Option key={category.value}>{category.label}</Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item label="标签" required={true}>
-          <Select
-            placeholder="点击选择标签"
-            value={task.currentTask ? task.currentTask.tag : undefined}
-            onChange={onTaskChange('select', 'tag')}
-            showSearch
-            filterOption={(input: string, option: any) =>
-              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {tags.map(tag => (
-              <Select.Option key={tag}>{tag}</Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-      </Form>
-    );
-  }else if (currentPlatform && currentPlatform.name === constants.platform.SEGMENTFAULT) {
+  } else if (currentPlatform && currentPlatform.name === constants.platform.SEGMENTFAULT) {
     platformContent = (
       <Form labelCol={{sm: {span: 4}}} wrapperCol={{sm: {span: 20}}}>
         <Form.Item label="标签" required={true}>
@@ -795,6 +766,39 @@ const ArticleList: React.FC<ArticleListProps> = props => {
           >
             {categories.map(category => (
               <Select.Option key={category.value}>{category.label}</Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Form>
+    );
+  } else if (currentPlatform && currentPlatform.name === constants.platform.TYPECHO) {
+    let categories: any[] = typechoCategories
+    const tags = juejin.tags.sort((a: string, b: string) => a > b ? 1 : -1)
+    platformContent = (
+      <Form labelCol={{sm: {span: 4}}} wrapperCol={{sm: {span: 20}}}>
+        <Form.Item label="类别" required={true}>
+          <Select
+            placeholder="点击选择类别"
+            value={task.currentTask ? task.currentTask.category : undefined}
+            onChange={onTaskChange('select', 'category')}
+          >
+            {categories.map(category => (
+              <Select.Option key={category.value}>{category.label}</Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item label="标签" required={true}>
+          <Select
+            placeholder="点击选择标签"
+            value={task.currentTask ? task.currentTask.tag : undefined}
+            onChange={onTaskChange('select', 'tag')}
+            showSearch
+            filterOption={(input: string, option: any) =>
+              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {tags.map(tag => (
+              <Select.Option key={tag}>{tag}</Select.Option>
             ))}
           </Select>
         </Form.Item>

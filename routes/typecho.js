@@ -27,10 +27,10 @@ module.exports = {
     }
     let categories = []
     if (categories.length === 0) {
-      await metaWeblog.getCategories("1")
+      await metaWeblog.getCategories("0")
         .then((categories_) => {
           // console.log('\n Method response[0] for \'getCategories\': ');
-          // console.log(categories);
+          console.log(categories);
           categories_.forEach(category => {
             categories.push(
               {"value": category.categoryName, "label": category.categoryName}
